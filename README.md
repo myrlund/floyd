@@ -6,10 +6,10 @@ Floyd.js is an extremely simple, yet versatile cycle-detection library in JS. It
 Installation
 ------------
 
-Not yet in NPM, so for now, grab it directly from Github by cloning or:
+Grab it directly from Github by cloning or install it with NPM:
 
 ```bash
-npm install myrlund/floyd
+npm install floyd
 ```
 
 Usage
