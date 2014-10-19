@@ -5,8 +5,8 @@
 var _ = require('underscore');
 
 var defaultOptions = {
-    outNodePropertyName: 'out',
-    inNodePropertyName: 'in',
+    outEdgePropertyName: 'out',
+    inEdgePropertyName: 'in',
     normalizePath: false,
 };
 
@@ -32,7 +32,7 @@ function floyd(path, start, _options) {
         path = normalizePath(path, options);
     }
 
-    var nextAll = nextFn(path, options.outNodePropertyName, options.excludeIndices);
+    var nextAll = nextFn(path, options.outEdgePropertyName, options.excludeIndices);
 
     var start = start === undefined ? 0 : start;
 
@@ -132,7 +132,7 @@ function normalizePath(path, _options) {
     // Cycle through the nodes in the path to find
     // in-node references.
     path.forEach(function (node, nodeIndex) {
-        var inNodes = node[options.inNodePropertyName] || [];
+        var inNodes = node[options.inEdgePropertyName] || [];
 
         // Cycle through the nodes to discover out-nodes to add.
         inNodes.forEach(function (inNodeIndex) {
@@ -140,11 +140,11 @@ function normalizePath(path, _options) {
 
             // The new set of out nodes is the union between the
             // previous set and the currently processed node index.
-            inNode.out = _.union(inNode[options.outNodePropertyName], [nodeIndex]);
+            inNode.out = _.union(inNode[options.outEdgePropertyName], [nodeIndex]);
         });
 
         // Clean up the in nodes.
-        delete normalizedPath[nodeIndex][options.inNodePropertyName];
+        delete normalizedPath[nodeIndex][options.inEdgePropertyName];
     });
 
     return normalizedPath;
@@ -158,9 +158,9 @@ function normalizePath(path, _options) {
  *
  * @private
  * @param path {Array} - The path from which to return out-nodes.
- * @param outNodePropertyName {String|null} -
+ * @param outEdgePropertyName {String|null} -
  */
-function nextFn(path, outNodePropertyName, excludedIndices) {
+function nextFn(path, outEdgePropertyName, excludedIndices) {
     var outNodeIndicesForNodeIndex = function (index) {
         var node = path[index];
         if (_.isNumber(node)) {
@@ -169,7 +169,7 @@ function nextFn(path, outNodePropertyName, excludedIndices) {
         if (_.isArray(node)) {
             return node;
         }
-        return (node && node[outNodePropertyName]) || [];
+        return (node && node[outEdgePropertyName]) || [];
     }
 
     return function (indices) {
@@ -212,8 +212,8 @@ function nextFn(path, outNodePropertyName, excludedIndices) {
  /**
   * @typedef Options
   * @type object
-  * @property {string} [outNodePropertyName='out']
-  * @property {string} [inNodePropertyName='in']
+  * @property {string} [outEdgePropertyName='out']
+  * @property {string} [inEdgePropertyName='in']
   * @property {boolean} [normalizePath=false]
   */
 

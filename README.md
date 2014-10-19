@@ -91,8 +91,13 @@ The following default options apply:
 
 ```javascript
 {
-    outNodePropertyName: 'out',
-    inNodePropertyName: 'in',
+    outEdgePropertyName: 'out',
+    inEdgePropertyName: 'in',
     normalizePath: false
 }
 ```
+
+Known Issues
+------------
+
+* When several cycles partially overlap, not all of them will be returned. Usually in such cases, the shortest cycle (from the start node) is returned.
