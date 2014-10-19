@@ -1,0 +1,15 @@
+{
+  "name": "floyd",
+  "version": "0.0.1",
+  "description": "A simple cycle detection library.",
+  "main": "floyd.js",
+  "scripts": {
+    "test": "node tests.js",
+    "generate-docs": "jsdoc -d docs floyd.js README.md"
+  },
+  "author": "Jonas Myrlund",
+  "license": "ISC",
+  "dependencies": {
+    "underscore": "^1.7.0"
+  }
+}
