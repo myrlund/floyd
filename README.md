@@ -8,7 +8,9 @@ Installation
 
 Not yet in NPM, so for now, grab it directly from Github by cloning or:
 
-> npm install myrlund/floyd
+```bash
+npm install myrlund/floyd
+```
 
 Usage
 -----
