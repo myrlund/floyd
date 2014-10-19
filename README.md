@@ -84,6 +84,19 @@ floyd.detectCycles(complexPath, {
 // => [ { firstIndex: 3, stepsFromStart: 2, length: 1 } ]
 ```
 
+The path being an object with arbitrary edge keys:
+
+```javascript
+var objectGraph = {
+    object1: ['object2'],
+    object2: ['object3'],
+    object3: ['object1'],
+};
+
+floyd.detectCycles(objectGraph);
+// => [ { firstKey: 'object1', stepsFromStart: 0, length: 3 } ]
+```
+
 Options
 -------
 

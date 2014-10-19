@@ -32,7 +32,7 @@ function floyd(path, start, _options) {
         path = normalizePath(path, options);
     }
 
-    var nextAll = nextFn(path, options.outEdgePropertyName, options.excludeIndices);
+    var nextAll = nextFn(path, options);
 
     var start = start === undefined ? 0 : start;
 
@@ -59,7 +59,7 @@ function floyd(path, start, _options) {
     // case of the leading pointer having twice the velocity
     // of the trailing one, they will meet again at the cycle's
     // starting point.
-    var mu = start;
+    var mu = 0;
     var tortoises = [start];
     while (_.intersection(tortoises, hares).length === 0) {
         tortoises = nextAll(tortoises);
@@ -79,7 +79,7 @@ function floyd(path, start, _options) {
     }
 
     return {
-        firstIndex: tortoises[0],
+        firstKey: tortoises[0],
         stepsFromStart: mu,
         length: lambda
     };
@@ -95,25 +95,20 @@ function floyd(path, start, _options) {
  * @returns {Cycle[]} - A set of detected cycles.
  */
 function detectCycles(path, options) {
-    var startRange = _.range(path.length);
+    var knownCycleKeys = [];
 
-    // Collect each cycle's starting point indices for
-    // optimization and cycle collection purposes.
-    var cycleStartingPoints = [];
-
-    var cycles = startRange.map(function (start) {
-        // Exclude nodes that we know are a part of known cycles.
-        var _options = _.defaults(options, {
-            excludeIndices: cycleStartingPoints
+    var cycles = _.map(path, function (edges, key) {
+        var _options = _.defaults(options || {}, {
+            excludeIndices: knownCycleKeys
         });
-        var cycle = floyd(path, start, _options);
 
+        var cycle = floyd(path, key, _options);
         if (cycle) {
-            cycleStartingPoints.push(cycle.firstIndex);
+            knownCycleKeys.push(cycle.firstKey);
         }
+
         return cycle;
     });
-
     return _.compact(cycles);
 }
 
@@ -160,7 +155,7 @@ function normalizePath(path, _options) {
  * @param path {Array} - The path from which to return out-nodes.
  * @param outEdgePropertyName {String|null} -
  */
-function nextFn(path, outEdgePropertyName, excludedIndices) {
+function nextFn(path, options) {
     var outNodeIndicesForNodeIndex = function (index) {
         var node = path[index];
         if (_.isNumber(node)) {
@@ -169,7 +164,7 @@ function nextFn(path, outEdgePropertyName, excludedIndices) {
         if (_.isArray(node)) {
             return node;
         }
-        return (node && node[outEdgePropertyName]) || [];
+        return (node && node[options.outEdgePropertyName]) || [];
     }
 
     return function (indices) {
@@ -182,7 +177,7 @@ function nextFn(path, outEdgePropertyName, excludedIndices) {
             .uniq()
 
             // Exclude indices we want to exclude.
-            .difference(excludedIndices)
+            .difference(options.excludeIndices)
 
             // Unpack the chained value.
             .value();
@@ -198,7 +193,7 @@ function nextFn(path, outEdgePropertyName, excludedIndices) {
 
 /**
  * @typedef Path
- * @type Node[]
+ * @type {Node[]|object}
  */
 
 /**

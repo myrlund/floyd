@@ -1,6 +1,6 @@
 {
   "name": "floyd",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple cycle detection library.",
   "main": "floyd.js",
   "scripts": {

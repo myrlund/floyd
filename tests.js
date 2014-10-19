@@ -26,6 +26,12 @@ var disconnectedPath = [
     {'out': [2]},
 ];
 
+var objectGraph = {
+    object1: ['object2'],
+    object2: ['object3'],
+    object3: ['object1'],
+};
+
 function runCycleTest(path, normalizePath) {
     console.log("Looking for cycles in:");
     console.log(path);
@@ -40,3 +46,4 @@ runCycleTest(numberPath);
 runCycleTest(simplePath);
 runCycleTest(complexPath, true);
 runCycleTest(disconnectedPath);
+runCycleTest(objectGraph);
