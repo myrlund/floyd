@@ -20,6 +20,7 @@ trim_trailing_whitespace = false
 
 [*.json]
 insert_final_newline = false
+indent_size = 2
 
 [*.scss]
 indent_size = 2

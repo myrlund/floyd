@@ -7,8 +7,22 @@
     "test": "node tests.js",
     "generate-docs": "jsdoc -d docs floyd.js README.md"
   },
-  "author": "Jonas Myrlund",
-  "license": "ISC",
+  "author": {
+    "name": "Jonas Myrlund",
+    "email": "myrlund@gmail.com",
+    "url": "http://myrlund.no"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/myrlund/floyd.git"
+  },
+  "bugs": {
+    "url": "https://github.com/myrlund/floyd/issues"
+  },
+  "licenses": {
+    "type": "BSD",
+    "url": "https://raw.githubusercontent.com/myrlund/floyd/master/LICENSE"
+  },
   "dependencies": {
     "underscore": "^1.7.0"
   }
